@@ -27,7 +27,7 @@ jobs:
 
       # Go SAST (injection, crypto, file ops)
       - name: Gosec - Go Security Scanner
-        uses: securego/gosec@v2
+        uses: securego/gosec@master
         with:
           args: ./...
 
