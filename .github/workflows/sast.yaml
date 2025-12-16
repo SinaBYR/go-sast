@@ -1,0 +1,40 @@
+name: Security - SAST Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  sast:
+    name: Static Security Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      # Secrets & credentials
+      - name: Gitleaks - Secrets Scan
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          fail: true
+
+      # Go SAST (injection, crypto, file ops)
+      - name: Gosec - Go Security Scanner
+        uses: securego/gosec@v2
+        with:
+          args: ./...
+
+      # Semantic SAST (logic issues)
+      - name: Semgrep - SAST Rules
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >
+            p/golang
+
