@@ -22,8 +22,7 @@ jobs:
       # Secrets & credentials
       - name: Gitleaks - Secrets Scan
         uses: gitleaks/gitleaks-action@v2
-        with:
-          fail: false
+        continue-on-error: true
 
       # Go SAST (injection, crypto, file ops)
       - name: Gosec - Go Security Scanner
