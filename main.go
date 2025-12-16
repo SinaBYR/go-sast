@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/md5"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -47,14 +46,6 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 	// Insecure cryptography
 	hash := md5.Sum([]byte(user.Username))
 	fmt.Printf("MD5 hash: %x\n", hash)
-
-	// Information disclosure
-	db, _ := sql.Open("sqlite3", "./test.db")
-	_, err := db.Exec("INVALID SQL")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 
 	w.Write([]byte("OK"))
 }
