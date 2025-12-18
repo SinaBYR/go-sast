@@ -37,6 +37,7 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Command injection
 	out, _ := exec.Command("sh", "-c", user.Command).Output()
+
 	fmt.Println(string(out))
 
 	// Unsafe file operation
