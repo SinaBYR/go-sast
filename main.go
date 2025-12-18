@@ -36,8 +36,8 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(body, &user)
 
 	// Command injection
-	cmd := exec.Command("sh", "-c", user.Command)
-	cmd.Output()
+	out, _ := exec.Command("sh", "-c", user.Command).Output()
+	fmt.Println(string(out))
 
 	// Unsafe file operation
 	data, _ := os.ReadFile(user.FilePath)
